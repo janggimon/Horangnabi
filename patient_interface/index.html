@@ -8,78 +8,41 @@
     <style>
         body {
             display: flex;
-            justify-content: center;
+            justify-content: flex-end; /* 버튼을 하단에 위치시키기 위한 설정 */
             align-items: center;
             flex-direction: column;
             height: 100vh;
             width: 100vw;
-            background-image: url('background_image.jpg'); /* 배경 이미지 URL을 넣어주세요 */
+            background-image: url('homepage.jpg'); /* 배경 이미지 URL을 넣어주세요 */
             background-size: cover;
             background-position: center;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* 좀 더 세련된 폰트 사용 */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* 폰트 설정 */
             color: rgb(0, 159, 233);
             margin: 0;
         }
 
-        .image-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            margin-top: 10px;
-        }
-
-        .content {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            height: 70vh; /* 콘텐츠 높이 */
-            background-color: rgba(225, 246, 255, 0.7); /* 배경 이미지 위에 텍스트 가독성 향상을 위한 반투명 배경 */
-            margin-bottom: 20px;
-        }
-
-        h1 {
-            font-size: 18px; /* 문구 크기 줄이기 */
-            margin-bottom: 20px;
-        }
-
         button {
             padding: 20px 60px;
-            font-size: 30px; /* 버튼 글자 크기 키우기 */
+            font-size: 30px; /* 버튼 글자 크기 */
             cursor: pointer;
-            margin-top: 20px;
             border-radius: 15px;
             border: none;
             background-color: #ffffff;
             color: rgb(0, 159, 233);
             box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
             transition: background-color 0.3s, color 0.3s;
+            margin-bottom: 80px; /* 화면 아래와 버튼 사이의 여백 */
         }
 
         button:hover {
             background-color: rgb(2, 140, 233);
             color: white;
         }
-
-        img {
-            width: auto;
-            height: 40%;
-        }
     </style>
 </head>
 <body>
-    <!-- 이미지 추가 영역 -->
-    <div class="image-container">
-        <img src="emblem_01.gif" alt="진료 서비스 이미지">
-    </div>
-
-    <!-- 하단 나머지 영역 -->
-    <div class="content">
-        <h1>안녕하세요, 이동형 진료소입니다.</h1>
-        <button onclick="enterZoom()">진료실 입장</button>
-    </div>
+    <!-- 진료실 입장 버튼 -->
+    <button onclick="enterZoom()">진료실 입장</button>
     
     <script>
         function enterZoom() {
