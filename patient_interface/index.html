@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>비대면 진료 서비스</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: white;
+            flex-direction: column;
+            font-family: Arial, sans-serif;
+            color: black;
+        }
+        button {
+            padding: 20px 40px;
+            font-size: 24px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>안녕하세요, 이동형 진료소입니다.</h1>
+    <button onclick="enterZoom()">진료실 입장</button>
+    
+    <script>
+        function enterZoom() {
+            window.location.href = 'https://zoom.us/wc/join/{MEETING_ID}';
+        }
+    </script>
+</body>
+</html>
