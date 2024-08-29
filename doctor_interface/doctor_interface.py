@@ -1,11 +1,28 @@
 import tkinter as tk
 import requests
+import socket  # IP 주소를 가져오기 위해 socket 라이브러리 추가
+
+# 현재 노트북의 IP 주소를 가져오는 함수
+def get_local_ip():
+    try:
+        # dummy socket connection을 사용해 노트북의 IP 주소를 가져옵니다.
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.settimeout(0)
+        s.connect(('10.254.254.254', 1))  # 인터넷 연결이 필요하지 않습니다.
+        local_ip = s.getsockname()[0]
+    except Exception as e:
+        print(f"Could not get local IP address: {e}")
+        local_ip = '127.0.0.1'  # 로컬 호스트로 기본 설정
+    finally:
+        s.close()
+    return local_ip
+
+# 노트북의 IP 주소를 자동으로 가져와서 SERVER_URL을 업데이트
+LOCAL_IP = get_local_ip()
+SERVER_URL = f'http://{LOCAL_IP}:5000/unlock'
 
 # Zoom 회의 URL
 ZOOM_URL = 'https://zoom.us/wc/join/{MEETING_ID}'  # {MEETING_ID}를 실제 Zoom 회의 ID로 변경하세요.
-
-# 서보모터 제어 서버 URL
-SERVER_URL = 'http://[라즈베리파이_IP]:5000/unlock'  # [라즈베리파이_IP]를 실제 라즈베리 파이 IP로 변경하세요.
 
 def join_meeting():
     # Zoom 회의실에 입장
