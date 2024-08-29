@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>비대면 진료 서비스</title>
+    <title>Full Screen Toggle Example</title>
     <style>
         body {
             display: flex;
@@ -13,11 +13,12 @@
             flex-direction: column;
             height: 100vh;
             width: 100vw;
-            background-image: url('homepage.jpg'); /* 배경 이미지 URL을 넣어주세요 */
+            background-image: url('homepage.jpg'); /* Background image URL */
             background-size: cover;
             background-position: center;
             color: rgb(0, 159, 233);
             margin: 0;
+            position: relative; /* To position the full screen button */
         }
 
         button {
@@ -37,20 +38,51 @@
             background-color: rgb(2, 140, 233);
             color: white;
         }
+
+        #fullscreen-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background-color: rgba(255, 255, 255, 0.7);
+            color: rgb(0, 159, 233);
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        #fullscreen-btn:hover {
+            background-color: rgba(0, 159, 233, 0.2);
+        }
     </style>
 </head>
 <body>
-    <!-- 진료실 입장 버튼 -->
-    <button onclick="enterZoom()">진료실 입장</button>
+    <!-- Fullscreen Toggle Button -->
+    <button id="fullscreen-btn" onclick="toggleFullscreen()">Enter Full Screen</button>
+
+    <!-- Zoom Meeting Button -->
+    <button onclick="enterZoom()">Join Zoom Meeting</button>
     
     <script>
         function enterZoom() {
             const meetingID = '8528776866';
             const meetingPassword = 'R1dreUx0eStWbkVtdFR1dkhwRVRVdz09';
-            const userName = 'Hwang'; // 여기에 원하는 이름을 입력하세요.
+            const userName = 'Mobile Medical Drone 1';
             const zoomURL = `https://us05web.zoom.us/j/${meetingID}?pwd=${meetingPassword}&uname=${encodeURIComponent(userName)}`;
 
             window.location.href = zoomURL;
+        }
+
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
         }
     </script>
 </body>
