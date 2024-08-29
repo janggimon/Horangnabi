@@ -53,7 +53,7 @@ start_button = tk.Button(root, text="진료 시작하기", command=start_meeting
 start_button.pack(pady=30)
 
 for i in range(1, 4):
-    btn = tk.Button(root, text=f"약 {i} 처방", command=lambda i=i: send_prescription(i), font=("Arial", 16), width=20, height=2)
+    btn = tk.Button(root, text=f"{i}번 약품함 잠금해제", command=lambda i=i: send_prescription(i), font=("Arial", 16), width=20, height=2)
     btn.pack(pady=10)
 
 root.mainloop()
