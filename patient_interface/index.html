@@ -56,6 +56,33 @@
         #fullscreen-btn:hover {
             background-color: rgba(0, 159, 233, 0.2);
         }
+
+        /* Image animation */
+        .floating {
+            position: absolute;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        /* Image positions */
+        #image1 {
+            top: 120px;
+            left: 240px;
+        }
+
+        #image2 {
+            top: 120px;
+            left: 500px;
+        }
+
     </style>
 </head>
 <body>
@@ -64,7 +91,11 @@
 
     <!-- Zoom Meeting Button -->
     <button onclick="enterZoom()">진료실 입장</button>
-    
+
+    <!-- Floating Images -->
+    <img id="image1" class="floating" src="image1.png" alt="Image 1">
+    <img id="image2" class="floating" src="image2.png" alt="Image 2">
+
     <script>
         function enterZoom() {
             const meetingID = '8528776866';
