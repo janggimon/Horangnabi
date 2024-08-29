@@ -1,7 +1,7 @@
 import tkinter as tk
 import requests
 import socket
-import subprocess  # Zoom 애플리케이션 실행을 위한 라이브러리 추가
+import subprocess  # To launch the Zoom application
 
 def get_local_ip():
     try:
@@ -21,14 +21,13 @@ SERVER_URL = f'http://{LOCAL_IP}:5000/unlock'
 
 def start_meeting_as_host():
     try:
-        # 호스트로서 Zoom 회의 생성 (Windows 경로 예시)
-        # Zoom 경로를 본인의 Zoom 설치 경로로 변경하세요.
-        zoom_path = "/usr/bin/zoom"
-        
-        # 회의 ID와 패스워드를 설정합니다 (호스트의 Zoom 계정이 필요)
-        meeting_id = "8528776866"  # 본인의 회의 ID로 변경하세요.
+        zoom_path = "/usr/bin/zoom"  # Update this to the actual path of your Zoom application
+
+        # Meeting ID for the host (change to your actual meeting ID)
+        meeting_id = "8528776866"
         zoom_url = f"zoommtg://zoom.us/start?confno={meeting_id}"
-        
+
+        # Start Zoom with the specific URL
         subprocess.Popen([zoom_path, "--url=" + zoom_url])
     except Exception as e:
         print(f"Failed to start Zoom meeting as host: {e}")
@@ -45,15 +44,26 @@ def send_prescription(prescription_id):
 
 root = tk.Tk()
 root.title("의사 진료 인터페이스")
-root.geometry("800x600")
+
+# Make the window fullscreen
+root.attributes('-fullscreen', True)
 root.configure(bg='white')
 
-# 회의 시작 버튼 (호스트로서)
-start_button = tk.Button(root, text="진료 시작하기", command=start_meeting_as_host, font=("Arial", 24), width=15, height=2)
+# Create a frame for the black rectangle on the left side
+left_frame = tk.Frame(root, bg='black', width=int(root.winfo_screenwidth() * 0.8), height=root.winfo_screenheight())
+left_frame.pack(side='left', fill='both')
+
+# Create a frame for the buttons on the right side
+right_frame = tk.Frame(root, bg='white', width=int(root.winfo_screenwidth() * 0.2))
+right_frame.pack(side='right', fill='y')
+
+# Start meeting button
+start_button = tk.Button(right_frame, text="진료 시작하기", command=start_meeting_as_host, font=("Arial", 24), width=15, height=2)
 start_button.pack(pady=30)
 
+# Prescription buttons
 for i in range(1, 4):
-    btn = tk.Button(root, text=f"{i}번 약품함 잠금해제", command=lambda i=i: send_prescription(i), font=("Arial", 16), width=20, height=2)
+    btn = tk.Button(right_frame, text=f"{i}번 약품함 잠금해제", command=lambda i=i: send_prescription(i), font=("Arial", 16), width=20, height=2)
     btn.pack(pady=10)
 
 root.mainloop()
