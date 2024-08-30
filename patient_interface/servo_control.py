@@ -4,8 +4,8 @@ import time
 
 app = Flask(__name__)
 
-# 서보모터 제어 핀 설정 (핀 번호는 실제 연결에 따라 조정)
-servo_pins = [17, 27, 22]
+# 서보모터 제어 핀 설정
+servo_pins = [12, 13, 6]
 
 # GPIO 설정
 GPIO.setmode(GPIO.BCM)
@@ -14,9 +14,9 @@ for pin in servo_pins:
     GPIO.output(pin, GPIO.LOW)
 
 def unlock_servo(servo_id):
-    # 서보모터 잠금 해제 (여기서는 1초 동안만 활성화)
+    # 서보모터 잠금 해제 (잠금해제 15초 후 잠금)
     GPIO.output(servo_pins[servo_id - 1], GPIO.HIGH)
-    time.sleep(1)
+    time.sleep(15)
     GPIO.output(servo_pins[servo_id - 1], GPIO.LOW)
 
 @app.route('/unlock', methods=['POST'])
