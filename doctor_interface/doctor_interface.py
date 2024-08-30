@@ -5,6 +5,7 @@ import subprocess
 import time
 import os
 
+#노트북 현재 ip 주소 가져오는 함수
 def get_local_ip():
     try:
         s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -21,6 +22,7 @@ def get_local_ip():
 LOCAL_IP = get_local_ip()
 SERVER_URL = f'http://{LOCAL_IP}:5000/unlock'
 
+#호스트로 회의실 참가하는 함수
 def start_meeting_as_host():
     try:
         zoom_path = "/usr/bin/zoom"  # Update this to the actual path of your Zoom application
@@ -34,6 +36,7 @@ def start_meeting_as_host():
     except Exception as e:
         print(f"Failed to start Zoom meeting as host: {e}")
 
+#줌 윈도우 위치 조정하는 함수
 def handle_zoom_windows():
     try:
         # Check for and close the 'Zoom Workplace - Free account' window
@@ -70,6 +73,7 @@ def handle_zoom_windows():
     except Exception as e:
         print(f"Failed to handle Zoom windows: {e}")
 
+#서보 잠금해제 신호 전송하는 함수
 def send_prescription(prescription_id):
     try:
         response = requests.post(SERVER_URL, data={'id': prescription_id})
@@ -80,6 +84,7 @@ def send_prescription(prescription_id):
     except Exception as e:
         print(f"Error sending request: {e}")
 
+#프로그램 종료 함수
 def exit_fullscreen():
     root.attributes('-fullscreen', False)
     root.quit()
@@ -93,7 +98,7 @@ root.configure(bg='white')
 left_frame = tk.Frame(root, bg='light sky blue', width=int(root.winfo_screenwidth() * 0.85), height=root.winfo_screenheight(), highlightbackground="black", highlightthickness=75)
 left_frame.pack(side='left', fill='both')
 
-info_label = tk.Label(left_frame, text="우측의 '진료하기' 버튼을 눌러 화상 진료실로 입장할 수 있습니다", 
+info_label = tk.Label(left_frame, text="우측의 '진료 시작하기' 버튼을 눌러 화상 진료실로 입장할 수 있습니다", 
                       font=("Arial", 20), fg='navy', bg='light sky blue')
 info_label.place(relx=0.5, rely=0.5, anchor='center')
 
@@ -109,7 +114,7 @@ for i in range(1, 4):
     btn = tk.Button(right_frame, text=f"{i}번 약품함 잠금해제", command=lambda i=i: send_prescription(i), **button_style)
     btn.pack(pady=10)
 
-logo_image = tk.PhotoImage(file="horangnabi.png")  # Change the file path to your image
+logo_image = tk.PhotoImage(file="horangnabi.png")
 
 bottom_frame = tk.Frame(right_frame, bg='white')
 bottom_frame.pack(side='bottom', fill='y', pady=(10, 20))
