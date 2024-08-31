@@ -100,21 +100,19 @@
     <img id="image2" class="floating" src="image2.png" alt="Image 2">
 
     <script>
-        async function enterZoom() {
-            try {
-                // 클립보드에서 텍스트 읽기
-                const userName = await navigator.clipboard.readText();
-                
-                // 줌 URL 설정
-                const meetingID = '8528776866';
-                const meetingPassword = 'R1dreUx0eStWbkVtdFR1dkhwRVRVdz09';
-                const zoomURL = `https://us05web.zoom.us/wc/join/${meetingID}?pwd=${meetingPassword}&uname=${encodeURIComponent(userName)}`;
-                
-                // 줌 미팅으로 이동
-                window.location.href = zoomURL;
-            } catch (err) {
-                console.error('클립보드에서 텍스트를 읽어오는 데 실패했습니다: ', err);
-            }
+        function enterZoom() {
+            // 줌 URL 설정
+            const meetingID = '8528776866';
+            const meetingPassword = 'R1dreUx0eStWbkVtdFR1dkhwRVRVdz09';
+            const zoomURL = `https://us05web.zoom.us/wc/join/${meetingID}?pwd=${meetingPassword}`;
+            
+            // 줌 미팅으로 이동
+            window.location.href = zoomURL;
+
+            // 안내 메시지 표시
+            setTimeout(() => {
+                alert("반드시 이름 입력칸에 붙여넣기 후 입장해주시기 바랍니다.");
+            }, 2000);  // 2초 후에 메시지 표시
         }
 
         // function toggleFullscreen() {
