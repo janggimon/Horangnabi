@@ -93,7 +93,7 @@
     <button id="fullscreen-btn" onclick="toggleFullscreen()">전체화면</button>
 
     <!-- Zoom Meeting Button -->
-    <button onclick="enterZoom()">진료실 입장</button>
+    <button onclick="promptFullscreen()">진료실 입장</button>
 
     <!-- Floating Images -->
     <img id="image1" class="floating" src="image1.png" alt="Image 1">
@@ -101,25 +101,23 @@
 
     <script>
         function enterZoom() {
-            // 줌 URL 설정
             const meetingID = '8528776866';
             const meetingPassword = 'R1dreUx0eStWbkVtdFR1dkhwRVRVdz09';
             const userName = 'Mobile Medical Drone 1';
             const zoomURL = `https://us05web.zoom.us/wc/join/${meetingID}?pwd=${meetingPassword}&uname=${encodeURIComponent(userName)}`;
+            window.location.href = zoomURL; // 줌 미팅으로 이동
+        }
 
-            // 전체화면 상태를 확인하고 줌 미팅으로 이동
+        function promptFullscreen() {
             if (!document.fullscreenElement) {
                 document.documentElement.requestFullscreen().then(() => {
-                    // 전체화면 전환이 완료되면 줌 미팅으로 이동
-                    setTimeout(() => {
-                        window.location.href = zoomURL;
-                    }, 100); // 전체화면 전환 후 100ms 지연
+                    setTimeout(enterZoom, 100); // 전체화면 전환 후 줌 미팅으로 이동
                 }).catch((err) => {
                     console.warn(`Failed to enter fullscreen mode: ${err.message}`);
-                    window.location.href = zoomURL; // 전체화면 실패 시에도 줌 미팅으로 이동
+                    enterZoom(); // 전체화면 실패 시에도 줌 미팅으로 이동
                 });
             } else {
-                window.location.href = zoomURL; // 이미 전체화면인 경우 바로 줌 미팅으로 이동
+                enterZoom(); // 이미 전체화면인 경우 바로 줌 미팅으로 이동
             }
         }
 
