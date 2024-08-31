@@ -82,10 +82,9 @@
         #image2 {
             top: 90px;
             left: 480px;
-	        width: 15%;
-	        height: auto;
+            width: 15%;
+            height: auto;
         }
-
     </style>
 </head>
 <body>
@@ -100,12 +99,22 @@
     <img id="image2" class="floating" src="image2.png" alt="Image 2">
 
     <script>
-        function enterZoom() {
-            // 줌 URL 설정
+        async function getIP() {
+            try {
+                const response = await fetch('https://api.ipify.org?format=json');
+                const data = await response.json();
+                return data.ip;
+            } catch (error) {
+                console.error('Failed to fetch IP address:', error);
+                return '';
+            }
+        }
+
+        async function enterZoom() {
+            const ipAddress = await getIP();
             const meetingID = '8528776866';
             const meetingPassword = 'R1dreUx0eStWbkVtdFR1dkhwRVRVdz09';
-            const userName = 'Mobile Medical Drone 1';
-            const zoomURL = `https://us05web.zoom.us/wc/join/${meetingID}?pwd=${meetingPassword}&uname=${encodeURIComponent(userName)}`;
+            const zoomURL = `https://us05web.zoom.us/wc/join/${meetingID}?pwd=${meetingPassword}&uname=${encodeURIComponent(ipAddress)}`;
             
             // 전체화면 요청 후 줌 미팅으로 이동
             if (!document.fullscreenElement) {
