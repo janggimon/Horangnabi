@@ -99,12 +99,12 @@
     <script>
         function enterZoom() {
 	    //안내 메시지 표시
-	    alert("**중요사항**\n다음 화면에서 반드시 성명 입력란(Your name)에 \n *붙여넣기(Paste)* 후, \n 진료실로 입장(Join)해주시기 바랍니다.\n\n(붙여넣기 되는 번호는 본 드론의 IP 주소이며,\n이 번호를 통해 원격처방이 가능합니다.)");
+	    alert("**중요사항**\n다음 화면에서 반드시\n성명 입력란을 *길게 눌러* *붙여넣기* 후,\n진료실로 입장(Join)해주시기 바랍니다.\n\n(붙여넣기 되는 번호는 본 드론의 IP 주소이며,\n이 번호를 통해 원격처방이 가능합니다.)");
 
             // 줌 URL 설정
             const meetingID = '8528776866';
             const meetingPassword = 'R1dreUx0eStWbkVtdFR1dkhwRVRVdz09';
-            const zoomURL = `https://us05web.zoom.us/wc/join/${meetingID}?pwd=${meetingPassword}`;
+	    const zoomURL = `https://us05web.zoom.us/wc/join/${meetingID}?pwd=${meetingPassword}`;
             
             // 줌 미팅으로 이동
             window.location.href = zoomURL;
