@@ -101,28 +101,23 @@
 
     <script>
         function enterZoom() {
-            // 먼저 전체 화면으로 전환 시도
-            if (!document.fullscreenElement) {
-                document.documentElement.requestFullscreen().then(() => {
-                    // 전체 화면으로 전환된 후 줌 URL로 이동
-                    openZoomMeeting();
-                }).catch((err) => {
-                    console.warn(`Failed to enter fullscreen mode: ${err.message}`);
-                    openZoomMeeting(); // 만약 전체 화면이 실패하면 바로 줌 URL로 이동
-                });
-            } else {
-                // 이미 전체 화면 모드라면 바로 줌 URL로 이동
-                openZoomMeeting();
-            }
-        }
-
-        function openZoomMeeting() {
+            // 줌 URL 설정
             const meetingID = '8528776866';
             const meetingPassword = 'R1dreUx0eStWbkVtdFR1dkhwRVRVdz09';
             const userName = 'Mobile Medical Drone 1';
             const zoomURL = `https://us05web.zoom.us/j/${meetingID}?pwd=${meetingPassword}&uname=${encodeURIComponent(userName)}`;
-
-            window.location.href = zoomURL;
+            
+            // 전체화면 요청 후 줌 미팅으로 이동
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().then(() => {
+                    window.location.href = zoomURL; // 전체화면 후 줌 미팅으로 이동
+                }).catch((err) => {
+                    console.warn(`Failed to enter fullscreen mode: ${err.message}`);
+                    window.location.href = zoomURL; // 전체화면 실패 시에도 줌 미팅으로 이동
+                });
+            } else {
+                window.location.href = zoomURL; // 이미 전체화면인 경우 바로 줌 미팅으로 이동
+            }
         }
 
         function toggleFullscreen() {
