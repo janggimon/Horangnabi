@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Full Screen Toggle Example</title>
+    <script src="hammer.min.js"></script>
     <style>
         body {
             display: flex;
@@ -81,8 +82,8 @@
         #image2 {
             top: 90px;
             left: 480px;
-	    width: 15%;
-	    height: auto;
+	        width: 15%;
+	        height: auto;
         }
 
     </style>
@@ -100,6 +101,22 @@
 
     <script>
         function enterZoom() {
+            // 먼저 전체 화면으로 전환 시도
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().then(() => {
+                    // 전체 화면으로 전환된 후 줌 URL로 이동
+                    openZoomMeeting();
+                }).catch((err) => {
+                    console.warn(`Failed to enter fullscreen mode: ${err.message}`);
+                    openZoomMeeting(); // 만약 전체 화면이 실패하면 바로 줌 URL로 이동
+                });
+            } else {
+                // 이미 전체 화면 모드라면 바로 줌 URL로 이동
+                openZoomMeeting();
+            }
+        }
+
+        function openZoomMeeting() {
             const meetingID = '8528776866';
             const meetingPassword = 'R1dreUx0eStWbkVtdFR1dkhwRVRVdz09';
             const userName = 'Mobile Medical Drone 1';
