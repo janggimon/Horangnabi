@@ -63,6 +63,9 @@ def handle_zoom_windows():
 
         zoom_window_cmd = (f"wmctrl -r 'Meeting' -e 0,{new_x},{left_frame_y},{new_width},{left_frame_height}")
         subprocess.Popen(zoom_window_cmd, shell=True)
+        
+        # Zoom 회의 창을 항상 위에 있게 설정
+        subprocess.Popen("wmctrl -r 'Meeting' -b add,above", shell=True)
 
     except Exception as e:
         print(f"Failed to handle Zoom windows: {e}")
