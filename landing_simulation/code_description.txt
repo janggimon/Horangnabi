@@ -61,3 +61,23 @@ Copy code
 executor = rclpy.executors.MultiThreadedExecutor()
 executor.add_node(detector)
 executor.add_node(controller)
+
+3. PX4와 MAVROS의 연동
+이 코드에서 PX4와 MAVROS가 어떻게 상호작용하는지 더 깊게 설명하겠습니다.
+
+MAVROS: PX4는 ROS 2와 직접 통신할 수 없습니다. 대신 MAVLink 프로토콜을 사용하여 드론과 통신하는데, 이를 ROS 2에서 사용할 수 있도록 변환해주는 것이 MAVROS 패키지입니다.
+
+이 코드에서 드론에 속도 제어 명령을 보내는 부분(TwistStamped 메시지)은 실제로 MAVROS가 이를 MAVLink 프로토콜로 변환해 PX4로 보내는 것입니다.
+
+/mavros/setpoint_velocity/cmd_vel 토픽은 PX4에서 드론의 속도를 제어할 때 사용하는 주요 토픽 중 하나입니다. 이 토픽에 퍼블리시된 TwistStamped 메시지는 PX4가 드론의 속도 및 방향을 설정하는 데 사용합니다.
+
+드론 제어 플로우:
+
+카메라로부터 ArUco 마커 탐지.
+탐지된 마커의 좌표를 기반으로 드론의 이동 명령 생성.
+생성된 속도 명령을 TwistStamped 메시지로 MAVROS를 통해 PX4로 전달.
+PX4는 전달받은 속도 명령을 기반으로 드론의 모터를 제어하여 ArUco 마커 중앙으로 이동 및 착륙.
+4. ROS 2와 PX4의 통신 개요
+MAVROS를 통한 PX4 제어: ROS 2에서 MAVROS를 통해 PX4의 드론을 제어할 수 있습니다. 이 코드에서는 PoseStamped와 TwistStamped 메시지를 사용하여 드론의 위치 및 속도를 제어합니다.
+
+PX4의 반응: PX4는 MAVLink 메시지를 수신하고 드론의 모터를 제어하여 명령을 실행합니다. 이 과정에서 MAVROS가 ROS 2 메시지를 MAVLink 메시지로 변환해 PX4로 전송합니다.
