@@ -81,3 +81,5 @@ PX4는 전달받은 속도 명령을 기반으로 드론의 모터를 제어하�
 MAVROS를 통한 PX4 제어: ROS 2에서 MAVROS를 통해 PX4의 드론을 제어할 수 있습니다. 이 코드에서는 PoseStamped와 TwistStamped 메시지를 사용하여 드론의 위치 및 속도를 제어합니다.
 
 PX4의 반응: PX4는 MAVLink 메시지를 수신하고 드론의 모터를 제어하여 명령을 실행합니다. 이 과정에서 MAVROS가 ROS 2 메시지를 MAVLink 메시지로 변환해 PX4로 전송합니다.
+
+
