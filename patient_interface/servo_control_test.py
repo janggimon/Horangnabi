@@ -1,94 +1,49 @@
-from flask import Flask, request
-import RPi.GPIO as GPIO
 import time
+import pyautogui
+import webbrowser
+import pyperclip
+import socket
+import subprocess
 
-app = Flask(__name__)
+# pyautogui FAILSAFE 비활성화
+pyautogui.FAILSAFE = False
 
-servo_pins = [12, 13, 6]  # 서보모터 핀 번호
+# 키보드 레이아웃을 영어로 전환
+subprocess.run(['setxkbmap', 'us'])
 
-# 서보모터 초기화
-GPIO.setmode(GPIO.BCM)
-for pin in servo_pins:
-    GPIO.setup(pin, GPIO.OUT)
-    GPIO.output(pin, GPIO.LOW)
-
-servo1 = GPIO.PWM(servo_pins[0], 50)  # 50Hz PWM 신호
-servo2 = GPIO.PWM(servo_pins[1], 50)  # 50Hz PWM 신호
-servo3 = GPIO.PWM(servo_pins[2], 50)  # 50Hz PWM 신호
-
-servo1.start(7.5)  # 180도 서보모터 초기화 (중간 위치)
-servo2.start(7.5)  # 무한 회전 서보모터 초기화
-servo3.start(7.5)  # 무한 회전 서보모터 초기화
-
-def unlock_servo(servo_id):
-    if servo_id == 1:        
-        print("Unlocking Servo 1...")
-        servo2.ChangeDutyCycle(10)  # 시계방향으로 45도 이동
-        time.sleep(0.5)  # 모터가 회전하도록 잠시 대기
-        servo2.ChangeDutyCycle(7.5)  # 원래 위치로 돌아가도록 조정
-        time.sleep(0.5)
-        print("Servo 1 unlocked.")
-
-    elif servo_id == 2:
-        print("Unlocking Servo 2...")
-        servo1.ChangeDutyCycle(10)  # 시계방향으로 45도 이동 (가속)
-        time.sleep(1)  # 모터가 회전하도록 잠시 대기
-        servo1.ChangeDutyCycle(7.5)  # 정지 상태
-        print("Servo 2 unlocked.")
-
-    elif servo_id == 3:
-        print("Unlocking Servo 3...")
-        servo1.ChangeDutyCycle(10)  # 시계방향으로 45도 이동 (가속)
-        time.sleep(1)  # 모터가 회전하도록 잠시 대기
-        servo1.ChangeDutyCycle(7.5)  # 정지 상태
-        print("Servo 3 unlocked.")
-
-def lock_servo(servo_id):
-    if servo_id == 1:
-        print("Locking Servo 1...")
-        servo2.ChangeDutyCycle(5)  # 반시계방향으로 45도 이동
-        time.sleep(0.5)  # 모터가 회전하도록 잠시 대기
-        servo2.ChangeDutyCycle(7.5)  # 원래 위치로 돌아가도록 조정
-        time.sleep(0.5)
-        print("Servo 1 locked.")
-
-    elif servo_id == 2:
-        print("Locking Servo 2...")
-        servo1.ChangeDutyCycle(5)  # 반시계방향으로 45도 이동 (감속)
-        time.sleep(1)  # 모터가 회전하도록 잠시 대기
-        servo1.ChangeDutyCycle(7.5)  # 정지 상태
-        print("Servo 2 locked.")
-
-    elif servo_id == 3:
-        print("Locking Servo 3...")
-        # 실제 서보모터 제어 코드 주석 처리
-        servo1.ChangeDutyCycle(5)  # 반시계방향으로 45도 이동 (감속)
-        time.sleep(1)  # 모터가 회전하도록 잠시 대기
-        servo1.ChangeDutyCycle(7.5)  # 정지 상태
-        print("Servo 3 locked.")
-
-@app.route('/unlock', methods=['POST'])
-def unlock():
-    servo_id = int(request.form['id'])
-    action = request.form.get('action', 'unlock')
-
-    if action == 'unlock':
-        unlock_servo(servo_id)
-        return "Unlocked", 200
-    elif action == 'lock':
-        lock_servo(servo_id)
-        return "Locked", 200
-    else:
-        return "Invalid action", 400
-
-if __name__ == "__main__":
+def get_local_ip():
     try:
-        app.run(host='0.0.0.0', port=5000)
-    except KeyboardInterrupt:
-        pass
-    finally:
-        servo1.stop()
-        servo2.stop()
-        servo3.stop()
-        GPIO.cleanup()
-        print("Server shutting down, GPIO cleanup done.")
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.connect(("8.8.8.8", 80))
+        ip_address = s.getsockname()[0]
+        s.close()
+        return ip_address
+    except Exception as e:
+        print(f"IP 주소를 가져오는 데 실패했습니다: {e}")
+        return None
+
+url = 'file:///home/pi/drone/index.html'
+
+# 현재 로컬 IP 주소를 가져오고 클립보드에 복사
+ip_address = get_local_ip()
+if ip_address:
+    pyperclip.copy(ip_address)
+    print(f"IP 주소 '{ip_address}'가 클립보드에 복사되었습니다.")
+else:
+    print("IP 주소를 가져오지 못했습니다.")
+
+browser=webbrowser.get('chromium-browser')
+
+# 웹 브라우저에서 URL 열기
+browser.open(url)
+
+# 브라우저가 완전히 로드될 때까지 기다리기
+# time.sleep(0.3)
+
+# 브라우저 창에 포커스를 맞추기 위해 클릭
+pyautogui.click(x=500, y=500)  # 클릭 위치를 조정해 보세요.
+
+# F11 키 누르기 (전체화면 모드로 전환)
+# time.sleep(0.2)  # 클릭 후 약간의 지연을 추가
+pyautogui.press('f11')
+print("전체화면 모드로 전환되었습니다.")
