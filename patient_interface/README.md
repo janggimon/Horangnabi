@@ -7,5 +7,7 @@ cd ~
 mkdir drone
 ```
 
+
 /home/pi/drone/ : move all files to this directory except 이동진료소.desktop
+
 /home/pi/Desktop/ : 이동진료소.desktop
