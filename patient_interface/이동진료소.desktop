@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Name=이동진료소
+Comment=Start
+Exec=sh -c "sudo systemctl enable pigpiod && sudo systemctl start pigpiod && python3 /home/pi/drone/fullscreen_script.py && python3 /home/pi/drone/servo_control_test.py"
+Icon=utilities-terminal
+Terminal=true
+Type=Application
+Categories=Application;
